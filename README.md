@@ -1,1 +1,2 @@
-# Quartz
+# Quartz 
+.Net Core
