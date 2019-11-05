@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using log4net;
-using log4net.Config;
-using log4net.Repository;
-using log4net.Repository.Hierarchy;
+//using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace QuartzWeb
 {
@@ -24,7 +17,7 @@ namespace QuartzWeb
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; set; }
+        public IConfiguration Configuration { get;}
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -38,14 +31,6 @@ namespace QuartzWeb
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            var builder = new ConfigurationBuilder()
-               .SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile("appsettings.json");
-            Configuration = builder.Build();
-            services.AddSingleton<IConfiguration>(Configuration);//≈‰÷√IConfigurationµƒ“¿¿µ
-
-            services.AddQuartz(typeof(QuartzJob));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +52,10 @@ namespace QuartzWeb
             app.UseCookiePolicy();
 
             app.UseMvc();
+
+            //≈‰÷√NLog
+            NLogBuilder.ConfigureNLog("nlog.config");//∂¡»°Nlog≈‰÷√Œƒº˛
+
             SiteConfig.SetAppSetting(Configuration.GetSection("QuarzConfig"));
             QuartzService.StartJob<QuartzJob>();
         }

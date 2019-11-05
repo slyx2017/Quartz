@@ -13,10 +13,14 @@ namespace QuartzWeb
     {
         public async Task Execute(IJobExecutionContext context)
         {
-            string path = SiteConfig.GetQuarzConfigValue("Path");
-            string days = SiteConfig.GetQuarzConfigValue("Days");
-            int.TryParse(days, out int day);
-            DeleteFile(path, day);
+            #region 删除文件夹
+            //string path = SiteConfig.GetQuarzConfigValue("Path");
+            //string days = SiteConfig.GetQuarzConfigValue("Days");
+            //int.TryParse(days, out int day);
+            //DeleteFile(path, day); 
+            #endregion
+
+            WriteLog();
             await Task.CompletedTask;
         }
         /// <summary>
@@ -72,6 +76,12 @@ namespace QuartzWeb
             {
                 throw;
             }
+        }
+
+        public void WriteLog()
+        {
+            //LogHelper.Info("This is testing");
+            NLogHelper.Info("This is testing");
         }
     }
 }

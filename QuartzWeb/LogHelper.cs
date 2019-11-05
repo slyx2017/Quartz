@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace QuartzWeb
 {
+    /// <summary>
+    /// log4net
+    /// </summary>
     public class LogHelper
     {
         private static ILoggerRepository repository { get; set; }
@@ -33,6 +36,18 @@ namespace QuartzWeb
         public static void Info(string msg)
         {
             log.Info(msg);
+        }
+        public static void Error(string msg)
+        {
+            log.Error(msg);
+        }
+        public static void Debug(string msg)
+        {
+            log.Debug(msg);
+        }
+        public static void Warn(string msg)
+        {
+            log.Warn(msg);
         }
     }
 }
